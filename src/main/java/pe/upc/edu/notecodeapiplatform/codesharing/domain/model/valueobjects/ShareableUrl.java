@@ -1,8 +1,12 @@
 package pe.upc.edu.notecodeapiplatform.codesharing.domain.model.valueobjects;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+
 import java.util.UUID;
 
-public record ShareableUrl(String urlCode) {
+@Embeddable
+public record ShareableUrl(@Column(unique = true, nullable = false, length = 8) String urlCode) {
 
     public ShareableUrl {
         if (urlCode == null || urlCode.isBlank()) {

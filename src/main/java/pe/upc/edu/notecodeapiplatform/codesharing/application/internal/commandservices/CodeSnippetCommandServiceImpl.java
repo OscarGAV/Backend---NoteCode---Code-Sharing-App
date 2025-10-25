@@ -24,10 +24,9 @@ public class CodeSnippetCommandServiceImpl implements CodeSnippetCommandService 
     }
 
     @Override
-    public Optional<CodeSnippet> handle(CreateCodeSnippetCommand command) {
-        LOGGER.info("Starting to process create code snippet command with title: {}", command.title());
+    public Optional<CodeSnippet> handleCreate(CreateCodeSnippetCommand command) {
+        LOGGER.info("Starting to process create code snippet command");
 
-        LOGGER.info("Creating new code snippet with title: {}", command.title());
         var codeSnippet = new CodeSnippet(command);
 
         try {
@@ -44,7 +43,7 @@ public class CodeSnippetCommandServiceImpl implements CodeSnippetCommandService 
     }
 
     @Override
-    public Optional<CodeSnippet> handle(UpdateCodeSnippetCommand command) {
+    public Optional<CodeSnippet> handleUpdate(UpdateCodeSnippetCommand command) {
         LOGGER.info("Starting to process update code snippet command for ID: {}", command.snippetId());
 
         LOGGER.debug("Searching for code snippet with ID: {}", command.snippetId());
@@ -69,14 +68,12 @@ public class CodeSnippetCommandServiceImpl implements CodeSnippetCommandService 
         return Optional.of(codeSnippet);
     }
 
-
     @Override
-    public void handle(DeleteCodeSnippetCommand command) {
+    public void handleDelete(DeleteCodeSnippetCommand command) {
         LOGGER.info("Starting to process delete code snippet command for ID: {}", command.snippetId());
 
         LOGGER.debug("Checking if code snippet exists with ID: {}", command.snippetId());
         if (!codeSnippetRepository.existsById(command.snippetId())) {
-            LOGGER.warn("Code with ID {} not found", command.snippetId());
             throw new ResourceNotFoundException("Code snippet with ID " + command.snippetId() + " not found");
         }
 

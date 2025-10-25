@@ -8,7 +8,7 @@ import pe.upc.edu.notecodeapiplatform.codesharing.domain.model.commands.UpdateCo
 import java.util.Optional;
 
 public interface CodeSnippetCommandService {
-    Optional<CodeSnippet> handle(CreateCodeSnippetCommand command);
-    Optional<CodeSnippet> handle(UpdateCodeSnippetCommand command);
-    void handle(DeleteCodeSnippetCommand command);
+    Optional<CodeSnippet> handleCreate(CreateCodeSnippetCommand command);
+    Optional<CodeSnippet> handleUpdate(UpdateCodeSnippetCommand command);
+    void handleDelete(DeleteCodeSnippetCommand command);
 }

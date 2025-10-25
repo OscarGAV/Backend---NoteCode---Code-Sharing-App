@@ -11,19 +11,11 @@ import pe.upc.edu.notecodeapiplatform.shared.domain.model.aggregates.AuditableAb
 @Entity
 public class CodeSnippet extends AuditableAbstractAggregateRoot<CodeSnippet> {
 
-    /* PENDING TO VALIDATE IF IS NEEDED A VALUE OBJECT FOR TITLE OR JUST A STRING
     @Embedded
-    private SnippetTitle title;*/
-
-    @Column(columnDefinition = "TEXT", nullable = false)
-    private String content;
+    private SnippetContent snippetContent;
 
     @Embedded
     private ProgrammingLanguage language;
-
-    /* PENDING TO VALIDATE IF IS NEEDED
-    @Embedded
-    private ThemePreference theme;*/
 
     @Embedded
     private ShareableUrl shareableUrl;
@@ -39,35 +31,28 @@ public class CodeSnippet extends AuditableAbstractAggregateRoot<CodeSnippet> {
     }
 
     public CodeSnippet(CreateCodeSnippetCommand command) {
-        /*this.title = new SnippetTitle(command.title());*/
-        this.content = command.content();
+        this.snippetContent = new SnippetContent(command.content());
         this.language = new ProgrammingLanguage(command.language());
-        /*this.theme = new ThemePreference(command.theme());*/
         this.shareableUrl = new ShareableUrl();
         this.userId = command.userId();
         this.isPublic = command.isPublic() != null ? command.isPublic() : true;
     }
 
     public void update(UpdateCodeSnippetCommand command) {
-        /* PENDING
-        if (command.title() != null && !command.title().isBlank()) {
-            this.title = new SnippetTitle(command.title());
-        }*/
-        if (command.content() != null) {
-            this.content = command.content();
+        if (command.content() != null && !command.content().isBlank()) {
+            this.snippetContent = new SnippetContent(command.content());
         }
         if (command.language() != null && !command.language().isBlank()) {
             this.language = new ProgrammingLanguage(command.language());
         }
-        /* PENDING
-        if (command.theme() != null && !command.theme().isBlank()) {
-            this.theme = new ThemePreference(command.theme());
-        }*/
         if (command.isPublic() != null) {
             this.isPublic = command.isPublic();
         }
     }
 
+    public String getContent() {
+        return this.snippetContent.content();
+    }
 
     public String getShareUrl() {
         return this.shareableUrl.urlCode();

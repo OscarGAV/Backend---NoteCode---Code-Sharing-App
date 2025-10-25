@@ -7,6 +7,6 @@ import pe.upc.edu.notecodeapiplatform.codesharing.domain.model.queries.GetCodeSn
 import java.util.Optional;
 
 public interface CodeSnippetQueryService {
-    Optional<CodeSnippet> handle(GetCodeSnippetByIdQuery query);
-    Optional<CodeSnippet> handle(GetCodeSnippetByShareUrlQuery query);
+    Optional<CodeSnippet> handleGetById(GetCodeSnippetByIdQuery query);
+    Optional<CodeSnippet> handleGetByShareUrl(GetCodeSnippetByShareUrlQuery query);
 }

@@ -4,10 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import pe.upc.edu.notecodeapiplatform.codesharing.domain.model.aggregates.CodeSnippet;
-/*import pe.upc.edu.notecodeapiplatform.codesharing.domain.model.queries.GetAllPublicCodeSnippetsQuery;*/
 import pe.upc.edu.notecodeapiplatform.codesharing.domain.model.queries.GetCodeSnippetByIdQuery;
 import pe.upc.edu.notecodeapiplatform.codesharing.domain.model.queries.GetCodeSnippetByShareUrlQuery;
-/*import pe.upc.edu.notecodeapiplatform.codesharing.domain.model.queries.GetCodeSnippetsByUserIdQuery;*/
 import pe.upc.edu.notecodeapiplatform.codesharing.domain.services.CodeSnippetQueryService;
 import pe.upc.edu.notecodeapiplatform.codesharing.domain.model.valueobjects.ShareableUrl;
 import pe.upc.edu.notecodeapiplatform.codesharing.infrastructure.persistence.jpa.repositories.CodeSnippetRepository;
@@ -26,7 +24,7 @@ public class CodeSnippetQueryServiceImpl implements CodeSnippetQueryService {
     }
 
     @Override
-    public Optional<CodeSnippet> handle(GetCodeSnippetByIdQuery query) {
+    public Optional<CodeSnippet> handleGetById(GetCodeSnippetByIdQuery query) {
         LOGGER.info("Searching for code snippet with ID: {}", query.snippetId());
         return codeSnippetRepository.findById(query.snippetId())
                 .map(snippet -> {
@@ -40,7 +38,7 @@ public class CodeSnippetQueryServiceImpl implements CodeSnippetQueryService {
     }
 
     @Override
-    public Optional<CodeSnippet> handle(GetCodeSnippetByShareUrlQuery query) {
+    public Optional<CodeSnippet> handleGetByShareUrl(GetCodeSnippetByShareUrlQuery query) {
         LOGGER.info("Searching for code snippet with share URL: {}", query.urlCode());
         return codeSnippetRepository.findByShareableUrl(new ShareableUrl(query.urlCode()))
                 .map(snippet -> {
@@ -53,9 +51,9 @@ public class CodeSnippetQueryServiceImpl implements CodeSnippetQueryService {
                 });
     }
 
-    /* PENDING TO IMPLEMENT
+    /* PENDING
     @Override
-    public List<CodeSnippet> handle(GetCodeSnippetsByUserIdQuery query) {
+    public List<CodeSnippet> handleGetByUserId(GetCodeSnippetsByUserIdQuery query) {
         LOGGER.info("Searching for code snippets by user ID: {}", query.userId());
         return Optional.of(codeSnippetRepository.findByUserId(query.userId()))
                 .filter(list -> !list.isEmpty())
@@ -68,11 +66,10 @@ public class CodeSnippetQueryServiceImpl implements CodeSnippetQueryService {
                     LOGGER.warn("No code snippets found for user ID: {}", query.userId());
                     return new ResourceNotFoundException("No code snippets found for user ID: " + query.userId());
                 });
-    }*/
+    }
 
-    /* PENDING TO IMPLEMENT
     @Override
-    public List<CodeSnippet> handle(GetAllPublicCodeSnippetsQuery query) {
+    public List<CodeSnippet> handleGetAllPublic(GetAllPublicCodeSnippetsQuery query) {
         LOGGER.info("Starting query for all public code snippets");
         return Optional.of(codeSnippetRepository.findByIsPublicTrue())
                 .filter(list -> !list.isEmpty())

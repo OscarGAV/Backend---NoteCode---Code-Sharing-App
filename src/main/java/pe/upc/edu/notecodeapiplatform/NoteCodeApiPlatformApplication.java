@@ -9,5 +9,4 @@ public class NoteCodeApiPlatformApplication {
     public static void main(String[] args) {
         SpringApplication.run(NoteCodeApiPlatformApplication.class, args);
     }
-
 }
